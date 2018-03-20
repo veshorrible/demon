@@ -10,7 +10,7 @@ while (true) {
     if ($info->message === '' && $info->key === '') {
         exit();
     }
-    $sender->updateInfo(base64_encode(Crypt::code($info->message, $info->key)));
+    $sender->updateInfo((new Crypt)->encode($info->message, $info->key));
     sleep(ONE_HOUR);
 }
 

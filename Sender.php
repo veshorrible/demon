@@ -94,7 +94,7 @@ class Sender
         $object = (new ResponseDataType())
             ->setMessage('')
             ->setKey('');
-        return ($status) ? $response->response : $object;
+        return $status ? $response->response : $object;
     }
 
     /**
