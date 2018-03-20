@@ -18,7 +18,7 @@ class Sender
      * @return mixed
      * @throws Exception
      */
-    public function send($params = [])
+    public function send(array $params = [])
     {
         if ($curl = curl_init()) {
             curl_setopt($curl, CURLOPT_URL, $this->url);
@@ -58,7 +58,7 @@ class Sender
      * @param string $message
      * @return stdClass
      */
-    public function updateInfo($message)
+    public function updateInfo(string $message)
     {
         $response = $this->send([
             'method' => 'update',
@@ -73,7 +73,7 @@ class Sender
      * @param stdClass $response
      * @return bool
      */
-    public function checkResponse($response)
+    public function checkResponse(stdClass $response)
     {
         if (isset($response->errorCode)) {
             $this->sendEmail($response->errorMessage);
@@ -88,12 +88,12 @@ class Sender
      * @param stdClass $response
      * @return string|stdClass
      */
-    public function getResponse($response)
+    public function getResponse(stdClass $response)
     {
         $status = $this->checkResponse($response);
-        $object = (new stdClass());
-        $object->message = null;
-        $object->key = null;
+        $object = (new ResponseDataType())
+            ->setMessage('')
+            ->setKey('');
         return ($status) ? $response->response : $object;
     }
 
@@ -103,7 +103,7 @@ class Sender
      * @param string $message
      * @return bool
      */
-    public function sendEmail($message)
+    public function sendEmail(string $message)
     {
         $headers = "From: Dennis";
         return mail(self::EMAIL, "Error", $message, $headers);
